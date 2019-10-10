@@ -608,7 +608,10 @@ function make_sector_list(sectors, dir_start, fat_addrs, ssz) {
 		k = (i + dir_start); if(k >= sl) k-=sl;
 		if(chkd[k]) continue;
 		buf_chain = [];
+		var last_j
 		for(j=k; j>=0;) {
+			if (last_j !== undefined && last_j === j) throw new Error('Bad or corrupted sector list')
+			last_j = j
 			chkd[j] = true;
 			buf[buf.length] = j;
 			buf_chain.push(sectors[j]);
